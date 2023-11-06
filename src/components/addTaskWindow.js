@@ -1,7 +1,12 @@
 import '../assets/styles/addTaskStyle.css';
+import { useContext } from "react";
+import {AppContext} from '../store/store.js';
 import { useEffect, useState } from 'react';
+import LSService from '../services/LSservice';
 
 function AddTaskWindow (props) {
+
+    const {setUserDataLS, setTasks} = LSService();
 
     const [taskName, setTaskName] = useState('');
     const [taskDescr, setTaskDescr] = useState('');
@@ -14,6 +19,42 @@ function AddTaskWindow (props) {
         setDeadlineDate(props.task.deadlineDate);
     },[])
 
+    const { state, dispatch } = useContext(AppContext);
+    
+    function handleSubmit (e) {
+        
+        if (props.amendMode) {
+            e.preventDefault();
+            const updTask = {
+             id: props.task.id,
+             name: taskName,
+             descr: taskDescr,
+             deadlineDate: deadlineDate,
+             deadlineTime: deadlineTime,
+             fulfilled: props.task.fulfilled
+             
+            }
+            dispatch({type: 'EDIT_TASK', updTask})
+            
+        } else {
+            e.preventDefault();
+            const newId = window.crypto.randomUUID();
+            const newTask = {
+             id: newId,
+             name: taskName,
+             descr: taskDescr,
+             deadlineDate: deadlineDate,
+             deadlineTime: deadlineTime,
+             fulfilled: false
+        }
+        // dispatch({type: 'ADD_TASK', newTask});
+        // setUserDataLS(state.login, newTask);
+        setTasks(newTask);
+        dispatch({type: 'ADD_TASK', newTask});
+        }
+        
+    }
+
     let header;
     if (props.amendMode) {
         header = 'Редактирование задачи';
@@ -21,22 +62,6 @@ function AddTaskWindow (props) {
         header = 'Добавить новую задачу';
     }
 
-    function onChangeName (e) {
-        setTaskName(e.target.value);
-    }
-
-    function onChangeDescr (e) {
-        setTaskDescr(e.target.value);
-    }
-
-    function onChangeDeadline (e) {
-        setDeadlineDate(e.target.value);
-    }
-
-    function onChangeDeadlineTime (e) {
-        setDeadlineTime(e.target.value);
-    }
-    
     return (
     
     <div className='modal-overlay'>
@@ -57,13 +82,13 @@ function AddTaskWindow (props) {
                            type='text'
                            placeholder='Название задачи'
                            value={taskName}
-                           onChange={onChangeName}
+                           onChange={(e) => {setTaskName(e.target.value)}}
                     />
                     <input className='add-task__input input-descr'
                            type='text'
                            placeholder='Описание задачи'
                            value={taskDescr}
-                           onChange={onChangeDescr}
+                           onChange={(e) => {setTaskDescr(e.target.value)}}
                     />
                     <div className='add-task__time-date-header'>
                         Установите срок
@@ -74,7 +99,7 @@ function AddTaskWindow (props) {
                             <input className='input-deadline'
                                 type='date'
                                 value={deadlineDate}
-                                onChange={onChangeDeadline}
+                                onChange={(e) => {setDeadlineDate(e.target.value)}}
                             />
                         </div>
                         <div className='time-input-cont'>
@@ -82,7 +107,7 @@ function AddTaskWindow (props) {
                             <input className='input-deadline'
                                type='time'
                                value={deadlineTime}
-                               onChange={onChangeDeadlineTime}
+                               onChange={(e) => {setDeadlineTime(e.target.value)}}
                             />
                         </div>
                         
@@ -94,8 +119,7 @@ function AddTaskWindow (props) {
                             type='submit'
                             form='addNewTask'
                             // onClick={onSubmitTask}
-                            // onClick={handleSubmit}
-                            
+                            onClick={handleSubmit}
                             >
                                 Добавить
                     </button>

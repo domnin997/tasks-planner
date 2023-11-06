@@ -1,45 +1,54 @@
 import { createContext } from "react";
+import LSService from "../services/LSservice";
+
+const {getTasks, updTasks} = LSService();
 
 export const initialState = {
-    isAuthorised: false,
-    login: '',
-    userData: {},
+    tasks: getTasks() ? getTasks() : [],
 }
   
 export const reducer = (state, action) => {
     switch (action.type) {
-      case "loggedIn":
+      case 'GET_TASKS':
         {
           return {
-            isAuthorised: true,
-            login: '',
-            userData: action.data,
+            tasks: [...action.tasksArr, state.tasks],
           };
         }
       
+        case 'ADD_TASK': 
+          {
+            const currTasks = state.tasks;
+            currTasks.push(action.newTask);
 
-    //   case "edit":
-    //     {
-    //       const idx = state.todos.findIndex(t => t.id === action.id);
-    //       const todo = Object.assign({}, state.todos[idx]);
-    //       todo.text = action.text;
-    //       const todos = Object.assign([], state.todos);
-    //       todos.splice(idx, 1, todo);
-    //       return {
-    //         counter: state.counter,
-    //         todos: todos,
-    //       };
-    //     }
-    //   case "remove":
-    //     {
-    //       const idx = state.todos.findIndex(t => t.id === action.id);
-    //       const todos = Object.assign([], state.todos);
-    //       todos.splice(idx, 1);
-    //       return {
-    //         counter: state.counter,
-    //         todos: todos,
-    //       };
-    //     }
+            return {
+              tasks: [...currTasks],
+            }
+          }
+
+      case 'DELETE_TASK':
+        {
+          const index = state.tasks.findIndex((task) => {return task.id === action.id});
+          const newTasksArr = state.tasks.filter((task, i) => {return i !== index});
+          updTasks(newTasksArr);
+          return {
+            tasks: newTasksArr,
+          }
+        } 
+
+    case 'EDIT_TASK':
+      {
+        const index = state.tasks.findIndex((task) => {return task.id === action.updTask.id});
+        let newArr = state.tasks;
+        
+        newArr.splice(index, 1, action.updTask);
+        console.log(index, state.tasks, newArr)
+        updTasks(newArr);
+        return {
+          tasks: newArr,
+        }
+      }
+      
       default:
         return state;
     }

@@ -1,3 +1,4 @@
+import '../assets/styles/standardBtn.css';
 
 function StandardBtn (props) {
 

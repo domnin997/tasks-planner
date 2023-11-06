@@ -41,9 +41,8 @@ function AuthForm (props) {
                 console.log('Нет такого пароля');
             } else {
                 const userData = getUserInfo(login);
-                dispatch({type: 'loggedIn', data: userData});
-                console.log(state);
-                // console.log(data);
+                dispatch({type: 'loggedIn', login: login, data: userData});
+               
             }
         }
     }

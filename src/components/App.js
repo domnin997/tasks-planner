@@ -12,7 +12,9 @@ function App() {
     <>
       <AppContext.Provider value={{state, dispatch}}>
         <AppHeader/>
-        <TasksContainer/>
+        <main className="main">
+          <TasksContainer/>
+        </main>
       </AppContext.Provider>
     </>
   );

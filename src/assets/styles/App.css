@@ -7,8 +7,9 @@ html {
 
 .main {
     display: flex;
-    height: 40px;
-    width: 1400px;
+    align-items: center;
+    justify-content: center;
+    width: 55%;
     margin: 0 auto;
-    position: relative;
+    position: static;
 }

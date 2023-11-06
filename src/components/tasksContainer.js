@@ -1,37 +1,42 @@
 import { useContext } from "react";
 import {AppContext} from '../store/store.js';
 import ListManagePanel from "./listManagePanel.js";
-
+import TasksPlaceholder from "./tasksPlaceholder.js";
+import ListItem from "./listItem.js";
+import '../assets/styles/tasksContainer.css';
 
 function TasksContainer () {
 
     const { state, dispatch } = useContext(AppContext);
 
-    function makePlaceholder () {
-        return (
-            <div className="placeholder-cont">
-                <p className="placeholder-text">
-                    Чтобы работать с планировщиком дел, войдите или зарегистрируйтесь
-                </p>
-            </div>
-        )
+    const emptyNotif = 'Ваш список задач пусть - добавьте новую задачу';
+
+    function createContent () {
+        if (state.tasks.length > 0) {
+            
+            const items = state.tasks.map((task) => {
+                return <ListItem key={task.id}
+                                 id={task.id}
+                                 name={task.name}
+                                 descr={task.descr}
+                                 deadlineDate={task.deadlineDate}
+                                 deadlineTime={task.deadlineTime}
+                                 dateOfCreation={task.dateOfCreation}
+                                 fulfilled={task.fulfilled}
+                        />
+            })
+
+            return items;
+        } else {
+            return <TasksPlaceholder text={emptyNotif}/>
+        }
     }
 
-    function makeList () {
-        return (
-            // Перебирем listItems
-            <div>
-                <ListManagePanel></ListManagePanel>
-                Ваш список
-                
-            </div>
-        )
-    }
-
-    const content = state.isAuthorised ? makeList() : makePlaceholder();
+    const content = createContent();
 
     return (
         <section className="tasks-container">
+            <ListManagePanel/>
             {content}
         </section>
     )

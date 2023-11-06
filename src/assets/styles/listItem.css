@@ -1,0 +1,27 @@
+.task {
+    min-height: 50px;
+    display: flex;
+    gap: 10px;
+    background-color: aquamarine;
+}
+
+.task__change-icon, .task__del-icon, .task__mark-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.task__name-cont {
+    width: 20%;
+}
+
+.task__descr-cont {
+    width: 40%;
+}
+
+.task__deadline-cont, .task__date-created {
+    width: 10%;
+}
+
+.fulfilled {
+    text-decoration: line-through;
+}

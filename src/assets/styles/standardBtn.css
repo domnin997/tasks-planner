@@ -1,0 +1,8 @@
+.standard-btn {
+    height: 35px;
+    width: 100px;
+    background-color: var(--dark-blue);
+    color: var(--dim-white);
+    cursor: pointer;
+    border-radius: 6px;
+}
