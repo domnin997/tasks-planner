@@ -1,0 +1,14 @@
+@import url(./resetStyles.css);
+@import url(./variables.css);
+
+html {
+    font-family: Roboto;
+}
+
+.main {
+    display: flex;
+    height: 40px;
+    width: 1400px;
+    margin: 0 auto;
+    position: relative;
+}
