@@ -7,9 +7,9 @@ import '../assets/styles/tasksContainer.css';
 
 function TasksContainer () {
 
-    const { state, dispatch } = useContext(AppContext);
+    const { state } = useContext(AppContext);
 
-    const emptyNotif = 'Ваш список задач пусть - добавьте новую задачу';
+    const emptyNotif = 'Ваш список пуст - добавьте новую задачу';
 
     function createContent () {
         if (state.tasks.length > 0) {
@@ -21,12 +21,12 @@ function TasksContainer () {
                                  descr={task.descr}
                                  deadlineDate={task.deadlineDate}
                                  deadlineTime={task.deadlineTime}
-                                 dateOfCreation={task.dateOfCreation}
-                                 fulfilled={task.fulfilled}
+                                 createdAt={task.createdAt}
+                                 isDone={task.isDone}
                         />
             })
-
             return items;
+            
         } else {
             return <TasksPlaceholder text={emptyNotif}/>
         }

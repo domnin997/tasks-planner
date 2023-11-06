@@ -1,28 +1,27 @@
 import '../assets/styles/listItem.css';
 import { useContext, useState } from "react";
 import {AppContext} from '../store/store.js';
-import AddTaskWindow from './addTaskWindow.js';
+import SetTaskModal from './setTaskModal.js';
 import LSService from '../services/LSservice.js';
 import changeIcon from '../assets/icons/change-icon.svg';
 import deleteIcon from '../assets/icons/delete-icon.svg';
 import emptyRound from '../assets/icons/empty-round.svg';
+import doneRound from '../assets/icons/done-round.svg';
 
 function ListItem (props) {
     
-    const {id, name, descr, deadlineDate, deadlineTime, dateOfCreation, fulfilled} = props;
+    const {id, name, descr, deadlineDate, deadlineTime, createdAt, isDone} = props;
     const {updTasks} = LSService();
-    const { state, dispatch } = useContext(AppContext);
+    const {state, dispatch} = useContext(AppContext);
 
     const [addWinOpen, setAddWinOpen] = useState(false);
 
-    const ModalWindow = addWinOpen ? <AddTaskWindow task={{name, descr, deadlineDate, id, fulfilled}}
-                                                    amendMode={true}
-                                                    onClose={()=>{setAddWinOpen(false)}} /> : null;
+    const ModalWindow = addWinOpen ? <SetTaskModal task={{name, descr, deadlineDate, deadlineTime, id, isDone, createdAt}}
+                                                   onClose={()=>{setAddWinOpen(false)}}                                                
+                                                   amendMode={true}/> : null;
 
-    function onDel (e) {
-        console.log(id);
+    function onDel () {
         dispatch({type: 'DELETE_TASK', id});
-        console.log(state.userData)
         updTasks(state.tasks);
     }
 
@@ -33,20 +32,19 @@ function ListItem (props) {
             descr,
             deadlineDate,
             deadlineTime,
-            fulfilled: !fulfilled
+            createdAt,
+            isDone: !isDone
         }
            dispatch({type: 'EDIT_TASK', updTask})
     }
 
-    function setClasss () {if (fulfilled) {
-        return 'task fulfilled';
-    } else {
-        return 'task';
-    }}
+    const itemClasses = isDone ? 'task fulfilled' : 'task';
+    const doneIcon = isDone ? doneRound : emptyRound;
+
     return (
         <>
         {ModalWindow}
-        <li className={setClasss()}>
+        <li className={itemClasses}>
             <div className='task__name-cont'>
                 <p className='task__name'>{name}</p>
             </div>
@@ -60,7 +58,7 @@ function ListItem (props) {
                 {deadlineTime}
             </div>
             <div className='task__date-created'>
-                {new Date(dateOfCreation).getFullYear()}
+                {new Date(createdAt).getFullYear()}
             </div>
             <div className='task__change'>
                 <img className='task__change-icon'
@@ -71,7 +69,7 @@ function ListItem (props) {
             </div>
             <div className='task__mark'>
                 <img className='task__mark-icon'
-                     src={emptyRound}
+                     src={doneIcon}
                      alt='delIcon'
                      onClick={onFulfill}
                 />

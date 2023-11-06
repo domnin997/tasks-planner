@@ -1,24 +1,8 @@
 import '../assets/styles/headerStyle.css';
-import AuthForm from './authForm.js';
-import { useState } from 'react';
 import pencilLogo from '../assets/img/pencil_logo.png';
 import profile from '../assets/img/profile_icon.svg';
 
 function AppHeader () {
-
-    const [regWinShown, setRegWinShown] = useState(false);
-    const [authWinShown, setAuthWinShown] = useState(false);
-
-    let ModalWindow;
-
-    if (regWinShown || authWinShown) {
-      ModalWindow = <AuthForm regMode={regWinShown}
-                              authMode={authWinShown}
-                              onClose={() => {setRegWinShown(false) 
-                                              setAuthWinShown(false)
-                                      }}/>;
-    }
-
     return (
       <header className='app-header'>
         <div className='app-header_wrap'>
@@ -36,8 +20,7 @@ function AppHeader () {
         </div>
         <div className='auth'>
           <div className='auth-wrap'>
-            <button onClick={() => {setAuthWinShown(true)}} 
-                    className='auth__text-container'>
+            <button className='auth__text-container'>
                Войти
             </button>
             <div className='auth__icon-container'>
@@ -46,14 +29,13 @@ function AppHeader () {
                    alt='profileIcon'
               />
             </div>
-            <button onClick={() => setRegWinShown(true)}
+            <button 
                     className='auth__text-container'>
                Регистрация
             </button>
           </div>
         </div>
         </div>
-      {ModalWindow}
       </header>
     )
 }

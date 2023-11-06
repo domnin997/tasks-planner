@@ -1,12 +1,18 @@
 import '../assets/styles/addTaskStyle.css';
-import { useContext } from "react";
+import {useContext} from "react";
 import {AppContext} from '../store/store.js';
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import LSService from '../services/LSservice';
 
-function AddTaskWindow (props) {
+function SetTaskModal (props) {
+    
+    const {task, onClose, amendMode} = props;
 
-    const {setUserDataLS, setTasks} = LSService();
+    const { dispatch } = useContext(AppContext);
+
+    const {setTasks} = LSService();
+
+    let headerText, btnText;
 
     const [taskName, setTaskName] = useState('');
     const [taskDescr, setTaskDescr] = useState('');
@@ -14,52 +20,55 @@ function AddTaskWindow (props) {
     const [deadlineTime, setDeadlineTime] = useState('');
 
     useEffect(() => {
-        setTaskName(props.task.name);
-        setTaskDescr(props.task.descr);
-        setDeadlineDate(props.task.deadlineDate);
+        setTaskName(task.name);
+        setTaskDescr(task.descr);
+        setDeadlineDate(task.deadlineDate);
+        setDeadlineTime(task.deadlineTime);
     },[])
 
-    const { state, dispatch } = useContext(AppContext);
+    if (amendMode) {
+        headerText = 'Редактирование задачи';
+        btnText = 'Изменить';
+    } else {
+        headerText = 'Добавить новую задачу';
+        btnText = 'Добавить';
+    }
     
     function handleSubmit (e) {
         
-        if (props.amendMode) {
-            e.preventDefault();
-            const updTask = {
-             id: props.task.id,
-             name: taskName,
-             descr: taskDescr,
-             deadlineDate: deadlineDate,
-             deadlineTime: deadlineTime,
-             fulfilled: props.task.fulfilled
-             
+      if (amendMode) {
+        e.preventDefault();
+          const updTask = {
+              id: task.id,
+              name: taskName,
+              descr: taskDescr,
+              deadlineDate: deadlineDate,
+              deadlineTime: deadlineTime,
+              createdAt: task.createdAt,
+              isDone: task.isDone
             }
-            dispatch({type: 'EDIT_TASK', updTask})
+
+          dispatch({type: 'EDIT_TASK', updTask});
+          onClose();
             
-        } else {
-            e.preventDefault();
-            const newId = window.crypto.randomUUID();
-            const newTask = {
-             id: newId,
-             name: taskName,
-             descr: taskDescr,
-             deadlineDate: deadlineDate,
-             deadlineTime: deadlineTime,
-             fulfilled: false
-        }
-        // dispatch({type: 'ADD_TASK', newTask});
-        // setUserDataLS(state.login, newTask);
+      } else {
+        e.preventDefault();
+          const newId = window.crypto.randomUUID();
+          const creationDate = new Date();
+          const newTask = {
+              id: newId,
+              name: taskName,
+              descr: taskDescr,
+              deadlineDate: deadlineDate,
+              deadlineTime: deadlineTime,
+              createdAt: creationDate.getTime(),
+              isDone: false
+            }
+
         setTasks(newTask);
+
         dispatch({type: 'ADD_TASK', newTask});
         }
-        
-    }
-
-    let header;
-    if (props.amendMode) {
-        header = 'Редактирование задачи';
-    } else {
-        header = 'Добавить новую задачу';
     }
 
     return (
@@ -67,10 +76,10 @@ function AddTaskWindow (props) {
     <div className='modal-overlay'>
         <div className='add-task-cont'>
             <div className='add-task__header-cont'>
-                <h2 className='add-task__header'>{header}</h2>
+                <h2 className='add-task__header'>{headerText}</h2>
                 <div className='add-task__close-cont'>
                     <p className='add-task__close-sign'
-                       onClick={props.onClose}>&#10006;</p>
+                       onClick={onClose}>&#10006;</p>
                 </div>
             </div>
             <div className='add-task__form-cont'>
@@ -118,10 +127,9 @@ function AddTaskWindow (props) {
                     <button className='add-task__btn'
                             type='submit'
                             form='addNewTask'
-                            // onClick={onSubmitTask}
                             onClick={handleSubmit}
                             >
-                                Добавить
+                                {btnText}
                     </button>
                 </div> 
             </div>
@@ -130,4 +138,4 @@ function AddTaskWindow (props) {
     )
 }
 
-export default AddTaskWindow;
+export default SetTaskModal;

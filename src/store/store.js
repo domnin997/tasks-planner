@@ -42,13 +42,24 @@ export const reducer = (state, action) => {
         let newArr = state.tasks;
         
         newArr.splice(index, 1, action.updTask);
-        console.log(index, state.tasks, newArr)
+
         updTasks(newArr);
         return {
           tasks: newArr,
         }
       }
-      
+    
+    case 'SORT_BY_CREATED':
+
+    {
+      const sortedArr = state.tasks;
+      sortedArr.sort((a,b) => {return b.createdAt - a.createdAt})
+
+      return {
+        tasks: sortedArr,
+      }
+    }
+
       default:
         return state;
     }
