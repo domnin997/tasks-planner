@@ -3,3 +3,72 @@
     border: 1px solid lightgray;
     position: static;
 }
+
+.tasks-container__h2-wrap {
+    padding: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.tasks-container__h2 {
+    font-size: 25px;
+}
+
+.tasks-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.tasks-list__head {
+    display: flex;
+    text-align: center;
+    gap: 10px;
+    padding: 15px 5px 15px 5px;
+    font-weight: 600;
+    background-color: var(--bright-orange);
+}
+
+.tasks-list__head-mark {
+    width: 20px;
+}
+
+.tasks-list__head-name {
+    width: 15%;
+}
+
+.tasks-list__head-descr {
+    width: 40%;
+}
+
+.tasks-list__head-deadline, .tasks-list__head-created {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 15%;
+}
+
+.head-deadline__el-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    cursor: pointer;
+}
+
+.deadline-sort-arrow, .created-sort-arrow {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    transition-duration: 0.4s;
+}
+
+.tasks-list__head-manage {
+    width: 7%;
+}
+
+.descend {
+    rotate: 180deg;
+}

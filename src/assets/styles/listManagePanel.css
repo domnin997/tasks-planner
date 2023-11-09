@@ -5,3 +5,20 @@
     padding: 10px 10px 10px 10px;
     position: static;
 }
+
+.sort-btns-cont {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.sort-btn {
+    width: 150px;
+    height: 30px;
+    background-color: var(--sort-btn-background);
+    color: white;
+}
+
+.hidden {
+    display: none;
+}

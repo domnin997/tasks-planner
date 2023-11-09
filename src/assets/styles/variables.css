@@ -10,4 +10,9 @@ html {
     --overlay-bg: rgba(128, 128, 128, 0.495);
 
     --inputs-underline-color: rgba(128, 128, 128, 0.347);
+
+    --task-main-background:rgba(176, 222, 255, 0.862);
+    --task-fulfilled-background: rgba(176, 222, 255, 0.266);
+
+    --sort-btn-background: rgb(121, 121, 121);
 }

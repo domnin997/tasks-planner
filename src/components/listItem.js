@@ -38,6 +38,10 @@ function ListItem (props) {
            dispatch({type: 'EDIT_TASK', updTask})
     }
 
+    const fullCreatedDate = `
+          ${new Date(createdAt).getDate()}/
+          ${new Date(createdAt).getMonth()+1}/
+          ${new Date(createdAt).getFullYear()}`;
     const itemClasses = isDone ? 'task fulfilled' : 'task';
     const doneIcon = isDone ? doneRound : emptyRound;
 
@@ -45,28 +49,6 @@ function ListItem (props) {
         <>
         {ModalWindow}
         <li className={itemClasses}>
-            <div className='task__name-cont'>
-                <p className='task__name'>{name}</p>
-            </div>
-            <div className='task__descr-cont'>
-                <p className='task__descr'>{descr}</p>
-            </div>
-            <div className='task__deadline-cont'>
-                {deadlineDate}
-            </div>
-            <div className='task__deadline-time-cont'>
-                {deadlineTime}
-            </div>
-            <div className='task__date-created'>
-                {new Date(createdAt).getFullYear()}
-            </div>
-            <div className='task__change'>
-                <img className='task__change-icon'
-                     src={changeIcon}
-                     alt='changeIcon'
-                     onClick={() => {setAddWinOpen(true)}}
-                />
-            </div>
             <div className='task__mark'>
                 <img className='task__mark-icon'
                      src={doneIcon}
@@ -74,13 +56,34 @@ function ListItem (props) {
                      onClick={onFulfill}
                 />
             </div>
-            <div className='task__del'>
+            <div className='task__name-cont'>
+                <p className='task__name'>{name}</p>
+            </div>
+            <div className='task__descr-cont'>
+                <p className='task__descr'>{descr}</p>
+            </div>
+            <div className='task__deadline-wrap'>
+                <p>{deadlineDate}</p>
+                <p>{deadlineTime}</p>
+            </div>
+            <div className='task__date-created'>
+                {fullCreatedDate}
+            </div>
+            <div className='task__manage-wrap'>
+                <img className='task__change-icon'
+                     src={changeIcon}
+                     alt='changeIcon'
+                     onClick={() => {setAddWinOpen(true)}}
+                />
+
                 <img className='task__del-icon'
                      src={deleteIcon}
                      alt='delIcon'
                      onClick={onDel}
                 />
+
             </div>
+            
         </li>
         </>
     )
