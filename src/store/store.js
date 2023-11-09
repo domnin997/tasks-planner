@@ -50,11 +50,34 @@ export const reducer = (state, action) => {
       }
     
     case 'SORT_BY_CREATED':
-
     {
       const sortedArr = state.tasks;
-      sortedArr.sort((a,b) => {return b.createdAt - a.createdAt})
+      if (action.isAscend === true) {
+        console.log('ascend');
+        sortedArr.sort((a,b) => {return b.createdAt - a.createdAt});
+      } else if (action.isAscend === false) {
+        console.log('desc');
+        sortedArr.sort((a,b) => {return a.createdAt - b.createdAt});
+      }
 
+      return {
+        tasks: sortedArr,
+      }
+    }
+
+      case 'SORT_BY_DEADLINE':
+    {
+      const sortedArr = state.tasks;
+      if (action.isAscend === true) {
+        sortedArr.sort((a,b) => {
+          return Date.parse(`${b.deadlineDate}T${b.deadlineTime}`) - Date.parse(`${a.deadlineDate}T${a.deadlineTime}`);
+        });
+      } else {
+        sortedArr.sort((a,b) => {
+          return Date.parse(`${a.deadlineDate}T${a.deadlineTime}`) - Date.parse(`${b.deadlineDate}T${b.deadlineTime}`);
+        });
+      }
+      
       return {
         tasks: sortedArr,
       }
