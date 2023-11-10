@@ -4,8 +4,14 @@ import '../assets/styles/App.css';
 import AppHeader from "./header";
 import TasksContainer from "./tasksContainer";
 
-function App() {
+import checkDeadlines from "../services/notifications";
 
+const func = checkDeadlines();
+setInterval(func, 1000);
+// clearInterval(checkDeadlines);
+
+function App() {
+  
   const [state, dispatch] = useReducer(reducer, initialState);
   
   return (
