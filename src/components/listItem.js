@@ -13,6 +13,9 @@ function ListItem (props) {
     const {id, name, descr, deadlineDate, deadlineTime, createdAt, isDone} = props;
     const {updTasks} = LSService();
     const {state, dispatch} = useContext(AppContext);
+    
+    const createdDateObj = new Date(createdAt);
+    const deadlineDateObj = new Date(deadlineDate);
 
     const [addWinOpen, setAddWinOpen] = useState(false);
 
@@ -20,6 +23,13 @@ function ListItem (props) {
                                                    onClose={()=>{setAddWinOpen(false)}}                                                
                                                    amendMode={true}/> : null;
 
+    function makeDate (dateObj) {
+        return `
+        ${dateObj.getDate()}.
+        ${dateObj.getMonth()+1}.
+        ${dateObj.getFullYear()}`;
+    }
+    
     function onDel () {
         dispatch({type: 'DELETE_TASK', id});
         updTasks(state.tasks);
@@ -38,10 +48,6 @@ function ListItem (props) {
            dispatch({type: 'EDIT_TASK', updTask})
     }
 
-    const fullCreatedDate = `
-          ${new Date(createdAt).getDate()}/
-          ${new Date(createdAt).getMonth()+1}/
-          ${new Date(createdAt).getFullYear()}`;
     const itemClasses = isDone ? 'task fulfilled' : 'task';
     const doneIcon = isDone ? doneRound : emptyRound;
 
@@ -63,11 +69,11 @@ function ListItem (props) {
                 <p className='task__descr'>{descr}</p>
             </div>
             <div className='task__deadline-wrap'>
-                <p>{deadlineDate}</p>
+                <p>{makeDate(deadlineDateObj)}</p>
                 <p>{deadlineTime}</p>
             </div>
             <div className='task__date-created'>
-                {fullCreatedDate}
+                {makeDate(createdDateObj)}
             </div>
             <div className='task__manage-wrap'>
                 <img className='task__change-icon'
