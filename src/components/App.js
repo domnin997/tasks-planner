@@ -1,14 +1,13 @@
 import { useReducer } from "react";
 import { reducer, initialState, AppContext } from "../store/store";
 import '../assets/styles/App.css';
-import AppHeader from "./header";
-import TasksContainer from "./tasksContainer";
+import AppHeader from "./appHeader.js";
+import TasksContainer from "./tasksContainer.js";
 
-import checkDeadlines from "../services/notifications";
+import checkDeadlines from "../services/notifications.js";
 
 const func = checkDeadlines();
-setInterval(func, 1000);
-// clearInterval(checkDeadlines);
+setInterval(func, 10000);
 
 function App() {
   
@@ -23,7 +22,7 @@ function App() {
         </main>
       </AppContext.Provider>
     </>
-  );
+  )
 }
 
 export default App;

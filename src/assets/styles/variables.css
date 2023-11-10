@@ -2,6 +2,7 @@ html {
     --bright-orange: rgb(255, 175, 56);
     --dark-blue: rgb(56, 53, 157);
     --dim-white: rgba(229, 229, 229, 0.8);
+    --background-white: rgba(229, 229, 229);
     --bright-white: rgba(250, 250, 250, 0.851);
 
     --text-white: rgb(250, 250, 250);

@@ -1,8 +1,8 @@
-import '../assets/styles/listItem.css';
 import { useContext, useState } from "react";
 import {AppContext} from '../store/store.js';
+import '../assets/styles/listItem.css';
 import SetTaskModal from './setTaskModal.js';
-import LSService from '../services/LSservice.js';
+
 import changeIcon from '../assets/icons/change-icon.svg';
 import deleteIcon from '../assets/icons/delete-icon.svg';
 import emptyRound from '../assets/icons/empty-round.svg';
@@ -11,9 +11,8 @@ import doneRound from '../assets/icons/done-round.svg';
 function ListItem (props) {
     
     const {id, name, descr, deadlineDate, deadlineTime, createdAt, isDone} = props;
-    const {updTasks} = LSService();
-    const {state, dispatch} = useContext(AppContext);
-    
+    const {dispatch} = useContext(AppContext);
+
     const createdDateObj = new Date(createdAt);
     const deadlineDateObj = new Date(deadlineDate);
 
@@ -32,7 +31,6 @@ function ListItem (props) {
     
     function onDel () {
         dispatch({type: 'DELETE_TASK', id});
-        updTasks(state.tasks);
     }
 
     function onFulfill () {
@@ -59,8 +57,7 @@ function ListItem (props) {
                 <img className='task__mark-icon'
                      src={doneIcon}
                      alt='delIcon'
-                     onClick={onFulfill}
-                />
+                     onClick={onFulfill}/>
             </div>
             <div className='task__name-cont'>
                 <p className='task__name'>{name}</p>
@@ -79,17 +76,13 @@ function ListItem (props) {
                 <img className='task__change-icon'
                      src={changeIcon}
                      alt='changeIcon'
-                     onClick={() => {setAddWinOpen(true)}}
-                />
+                     onClick={() => {setAddWinOpen(true)}}/>
 
                 <img className='task__del-icon'
                      src={deleteIcon}
                      alt='delIcon'
-                     onClick={onDel}
-                />
-
+                     onClick={onDel}/>
             </div>
-            
         </li>
         </>
     )

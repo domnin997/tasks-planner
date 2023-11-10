@@ -2,13 +2,13 @@ import '../assets/styles/addTaskStyle.css';
 import {useContext} from "react";
 import {AppContext} from '../store/store.js';
 import {useEffect, useState} from 'react';
-import LSService from '../services/LSservice';
+import LSService from '../services/LSservice.js';
 
 function SetTaskModal (props) {
     
     const {task, onClose, amendMode} = props;
 
-    const { dispatch } = useContext(AppContext);
+    const {dispatch} = useContext(AppContext);
 
     const {setTasks} = LSService();
 
@@ -65,9 +65,10 @@ function SetTaskModal (props) {
               isDone: false
             }
 
-        setTasks(newTask);
+        
 
         dispatch({type: 'ADD_TASK', newTask});
+        setTasks(newTask);
         }
     }
 
@@ -79,7 +80,7 @@ function SetTaskModal (props) {
           <h2 className='add-task__header'>{headerText}</h2>
           <div className='add-task__close-cont'>
               <p className='add-task__close-sign'
-                       onClick={onClose}>&#10006;
+                 onClick={onClose}>&#10006;
               </p>
           </div>
         </div>
@@ -132,7 +133,7 @@ function SetTaskModal (props) {
         </div>
       </div>
     </div>
-    )
+  )
 }
 
 export default SetTaskModal;
