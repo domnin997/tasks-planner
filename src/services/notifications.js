@@ -25,7 +25,7 @@ export default function checkDeadlines () {
     
                     } else {
                         
-                        if (nowTS - notifiedTasks[task.id] > 10000) {
+                        if (nowTS - notifiedTasks[task.id] > 60000) {
                             
                             notifiedTasks[task.id] = nowTS;
     
